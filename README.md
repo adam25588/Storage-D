@@ -25,7 +25,6 @@ Details are as follows:
 - pandas: 1.4.3
 
 At the same time, if you want to use the primer generation program, you need to install **[blast](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=Download)** in the system.
-**
 
 
 ## Directory tree
