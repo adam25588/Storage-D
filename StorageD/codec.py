@@ -137,7 +137,7 @@ class GoldmanDecode(AbstractDecode):
         self.add_len = int(param_dict['addLen'])
         self.file_extension = param_dict['fileExtension']
         self.codec_param=DecodeParameter(file_extension=self.file_extension)
-        self.output_file_path = self.output_dir + self.file_base_name + "_decode" + self.codec_param.file_extension   
+        self.output_file_path = self.output_dir + self.file_base_name + "_decode" + self.codec_param.file_extension
         
     def common_decode(self):
         self._parse_param()
