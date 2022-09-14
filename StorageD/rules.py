@@ -47,7 +47,6 @@ def getRules(iTotalNum=10):
             dict1[bit] = lRule1[index]
             dict2[bit] = lRule2[index]
         lPair.append((dict1,dict2))
-    lPair[1] = (base_rules_ji, base_rules_ou)
     return lPair
 
 def getRandomRulues(member_num=16, total_rules=20, seed = 2022):
