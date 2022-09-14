@@ -105,7 +105,7 @@ class SplitTools:
             else:
                 index_len += 1
                 data_len -= 1
-        raise Exception('no result')
+        raise Exception('no split result')
 
     @staticmethod
     def get_bin_split_length(ori_bin_length, bit_base_ratio, code_param: EncodeParameter, index_redundancy=0):
@@ -134,6 +134,20 @@ class SplitTools:
         compute_bit = ori_bin_length if not code_param.add_redundancy else (ori_bin_length + int(ori_bin_length / 2))
         index_length, data_bin_length, seq_num = SplitTools.get_split_info(compute_bit, true_seq_bin_length, 2)
         index_length += index_redundancy
+        
+        # check
+        if code_param.add_redundancy:
+            while(1):
+                tmp_index_len = index_length
+                split_num = math.ceil(ori_bin_length / data_bin_length) + int(math.ceil(ori_bin_length / data_bin_length) / 2)
+                index_length = math.ceil(math.log(split_num, 2)) + index_redundancy
+                if index_length==tmp_index_len:
+                    break
+                else:
+                    compute_bit = split_num * (data_bin_length-1)
+                    index_length, data_bin_length, seq_num = SplitTools.get_split_info(compute_bit, true_seq_bin_length, 2)
+                    index_length += index_redundancy
+            
         log.debug('index_length: {}, data_bin_length: {}, seq_num: {}'.format(index_length, data_bin_length, seq_num))
         return index_length, data_bin_length, seq_num, rs_group
 
@@ -142,10 +156,10 @@ class SplitTools:
         """
         for decode
         """
-        if add_redundancy:
-            total_bit+=int(total_bit/2)
-        segments_num = math.ceil(total_bit / bin_seg_len)  # 向上取整，得到片段个数
-        index_len = math.ceil(math.log(segments_num, 2)) + index_redundancy  # index的长度，有时会有冗余，如悟空会多出一位代表虚片段
+        tmp_num = math.ceil(total_bit / bin_seg_len)  # 向上取整，得到片段个数
+        segments_num = tmp_num if not add_redundancy else (tmp_num + int(tmp_num / 2))  # 判断冗余
+        index_len = math.ceil(math.log(segments_num, 2)) + index_redundancy
+        
         log.debug("indexLen:{},segments_num:{}".format(index_len, segments_num))
         return index_len, segments_num
 
