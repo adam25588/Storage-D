@@ -191,7 +191,7 @@ class Wukong():
                             if bt.check_equal(check_str[-self.max_homopolymer:]): # if homopolymer does not meet requirement, do not add in list
                                 break
                         tmp_base_list.append(tmp_base)
-                        gc_delta_list.append(abs(0.5 - bt.get_gc(check_str)))
+                        gc_delta_list.append(abs((self.max_content+self.min_content)/2 - bt.get_gc(check_str)))
                 if len(tmp_base_list)==0: # all segments's homopolymer do not meet requirement
                     raise CodecException("Could not get virtual segment.\nConsider encoding with more relaxed conditions.")
                 else:
